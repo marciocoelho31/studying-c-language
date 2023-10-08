@@ -12,10 +12,27 @@ int main()
 
     // Define codificação como sendo UTF-8
     SetConsoleOutputCP(CPAGE_UTF8);
+
     // imprime cabeçalho do jogo
-    printf("******************************************\n");
-    printf("* Bem vindo ao nosso jogo de adivinhação *\n");
-    printf("******************************************\n");
+    printf("\n\n\n");
+    printf("               T~~\n");
+    printf("               |\n");
+    printf("              /"
+           "\\\n");
+    printf("      T~~     |'| T~~\n");
+    printf("  T~~ |    T~ WWWW|\n");
+    printf("  |  /\"\\   |  |  |/\\T~~\n");
+    printf(" /\"\\ WWW  /\"\\ |' |WW|\n");
+    printf("WWWWW/\\| /   \\|'/\\|/\"\\\n");
+    printf("|   /__\\/]WWW[\\/__\\WWWW\n");
+    printf("|\"  WWWW'|I_I|'WWWW'  |\n");
+    printf("|   |' |/  -  \\|' |'  |\n");
+    printf("|'  |  |LI=H=LI|' |   |\n");
+    printf("|   |' | |[_]| |  |'  |\n");
+    printf("|   |  |_|###|_|  |   |\n");
+    printf("'---'--'-/___\\-'--'---'\n\n");
+
+    printf("BEM VINDO AO JOGO DE ADIVINHAÇÃO!\n\n\n");
 
     int segundos = time(0); // segundos passados desde 01/01/1970
     srand(segundos);
@@ -23,13 +40,33 @@ int main()
 
     int chute;
 
-    int ganhou = 0;
-
     int tentativas = 1;
 
     double pontos = 1000;
 
-    while (!ganhou)
+    int acertou = 0;
+
+    int nivel;
+    printf("Qual o nível de dificuldade?\n");
+    printf("(1) Fácil (2) Médio (3) Difícil\n");
+    printf("Escolha: ");
+    scanf("%d", &nivel);
+
+    int numeroDeTentativasPermitidas;
+    switch (nivel)
+    {
+    case 1:
+        numeroDeTentativasPermitidas = 20;
+        break;
+    case 2:
+        numeroDeTentativasPermitidas = 15;
+        break;
+    default:
+        numeroDeTentativasPermitidas = 6;
+        break;
+    }
+
+    for (int i = 1; i <= numeroDeTentativasPermitidas; i++)
     {
         printf("Tentativa %d\n", tentativas);
         printf("Qual é o seu chute? ");
@@ -43,13 +80,12 @@ int main()
             continue;
         }
 
-        int acertou = (chute == numeroSecreto);
+        acertou = (chute == numeroSecreto);
         int maior = (chute > numeroSecreto);
 
         if (acertou)
         {
-            printf("Parabéns! Você acertou na %da. tentativa!\n", tentativas);
-            ganhou = 1;
+            break;
         }
 
         else if (maior)
@@ -70,7 +106,37 @@ int main()
 
     printf("Fim de jogo!\n");
 
-    printf("Total de pontos: %.1f\n", pontos);
+    if (acertou)
+    {
+
+        printf("      _.-'''''-._\n");
+        printf("    .'  _     _  '.\n");
+        printf("   /   (_)   (_)   \\\n");
+        printf("  |  ,           ,  |\n");
+        printf("  |  \\`.       .`/  |\n");
+        printf("   \\  '.`'\"\"'\"`.'  /\n");
+        printf("    '.  `'---'`  .'\n");
+        printf("      '-._____.-'\n\n");
+
+        printf("Você ganhou!\n");
+        printf("Você acertou na %da. tentativa!\n", tentativas);
+        printf("Total de pontos: %.1f\n", pontos);
+    }
+    else
+    {
+
+        printf("  , ; ,   .-'\"\"\"'-.   , ; ,\n");
+        printf("  \\|/  .'         '.  \\|//\n");
+        printf("   \\-;-/   ()   ()   \\-;-/\n");
+        printf("   // ;               ; \\\n");
+        printf("  //__; :.         .; ;__\\\n");
+        printf(" `-----\'.'-.....-'.'/-----'\n");
+        printf("        '.'.-.-,_.'.'\n");
+        printf("          '(  (..-'\n");
+        printf("            '-'\n\n");
+
+        printf("Você perdeu! Tente de novo!\n");
+    }
 
     // Retorna codificação padrão do Windows
     SetConsoleOutputCP(CPAGE_DEFAULT);
