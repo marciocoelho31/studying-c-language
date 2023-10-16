@@ -1,58 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fogefoge.h"
+#include "mapa.h"
 
-char **mapa;
-int linhas;
-int colunas;
+MAPA m;
+POSICAO heroi;
 
-void liberaMapa()
+int acabou()
 {
-    for (int i = 0; i < linhas; i++)
-    {
-        free(mapa[i]);
-    }
-    free(mapa);
+    return 0; // por enquanto o jogo nao acaba
 }
 
-void alocaMapa()
+void move(char direcao)
 {
-    mapa = malloc(sizeof(char *) * linhas);
-    for (int i = 0; i < linhas; i++)
-    {
-        // '+1' por causa do \0 no final de cada string
-        mapa[i] = malloc(sizeof(char) * (colunas + 1));
-    }
-}
+    int x;
+    int y;
 
-void leMapa()
-{
-    FILE *f;
-    f = fopen("..\\mapa.txt", "r");
-    if (f == 0)
-    {
-        printf("Erro na leitura do mapa\n");
-        exit(1);
-    }
-    fscanf(f, "%d %d", &linhas, &colunas);
+    m.matriz[heroi.x][heroi.y] = '.';
 
-    alocaMapa();
-
-    for (int i = 0; i < 5; i++)
+    switch (direcao)
     {
-        fscanf(f, "%s", mapa[i]);
+    case 'a':
+        /* esquerda */
+        m.matriz[heroi.x][heroi.y - 1] = '@';
+        heroi.y--;
+        break;
+    case 'w':
+        /* cima */
+        m.matriz[heroi.x - 1][heroi.y] = '@';
+        heroi.x--;
+        break;
+    case 's':
+        /* baixo */
+        m.matriz[heroi.x + 1][heroi.y] = '@';
+        heroi.x++;
+        break;
+    case 'd':
+        /* direita */
+        m.matriz[heroi.x][heroi.y + 1] = '@';
+        heroi.y++;
+        break;
     }
-    fclose(f);
 }
 
 int main()
 {
-    leMapa();
+    leMapa(&m);
+    encontraMapa(&m, &heroi, '@');
 
-    for (int i = 0; i < 5; i++)
+    do
     {
-        printf("%s\n", mapa[i]);
-    }
+        imprimeMapa(&m);
 
-    liberaMapa();
+        char comando;
+        scanf(" %c", &comando);
+        move(comando);
+
+    } while (!acabou());
+
+    liberaMapa(&m);
 }
