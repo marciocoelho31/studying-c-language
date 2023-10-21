@@ -1,2 +1,5 @@
 output/*.exe
 */output/*.exe
+c/forca/output/forca.exe
+c/fogefoge/output/fogefoge.exe
+c/adivinhacao/adivinhacao.exe
