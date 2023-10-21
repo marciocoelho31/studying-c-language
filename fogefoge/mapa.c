@@ -42,14 +42,6 @@ void leMapa(MAPA *m)
     fclose(f);
 }
 
-void imprimeMapa(MAPA *m)
-{
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%s\n", m->matriz[i]);
-    }
-}
-
 int encontraMapa(MAPA *m, POSICAO *p, char c)
 {
     for (int i = 0; i < m->linhas; i++)

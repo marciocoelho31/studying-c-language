@@ -3,9 +3,11 @@
 #include <time.h>
 #include "fogefoge.h"
 #include "mapa.h"
+#include "ui.h"
 
 MAPA m;
 POSICAO heroi;
+int temPilula = 0;
 
 int praOndeFantasmaVai(int xatual, int yatual, int *xdestino, int *ydestino)
 {
@@ -101,9 +103,51 @@ void move(char direcao)
         return;
     }
 
+    if (ehPersonagem(&m, PILULA, proximox, proximoy))
+    {
+        temPilula = 1;
+    }
+
     andaNoMapa(&m, heroi.x, heroi.y, proximox, proximoy);
     heroi.x = proximox;
     heroi.y = proximoy;
+}
+
+void explodePilula()
+{
+    if (!temPilula)
+    {
+        return;
+    }
+    explodePilula2(heroi.x, heroi.y, 0, 1, 3);
+    explodePilula2(heroi.x, heroi.y, 0, -1, 3);
+    explodePilula2(heroi.x, heroi.y, 1, 0, 3);
+    explodePilula2(heroi.x, heroi.y, -1, 0, 3);
+
+    temPilula = 0;
+}
+
+void explodePilula2(int x, int y, int somax, int somay, int qtd)
+{
+    if (qtd == 0)
+    {
+        return;
+    }
+
+    int novox = x + somax;
+    int novoy = y + somay;
+
+    if (!ehValida(&m, novox, novoy))
+    {
+        return;
+    }
+    if (ehParede(&m, novox, novoy))
+    {
+        return;
+    }
+
+    m.matriz[novox][novoy] = VAZIO;
+    explodePilula2(novox, novoy, somax, somay, qtd - 1);
 }
 
 int main()
@@ -113,12 +157,19 @@ int main()
 
     do
     {
+        printf("Tem pilula: %s\n", (temPilula ? "SIM" : "NAO"));
+
         imprimeMapa(&m);
 
         char comando;
         scanf(" %c", &comando);
 
         move(comando);
+
+        if (comando == BOMBA)
+        {
+            explodePilula();
+        }
 
         fantasmas();
 
