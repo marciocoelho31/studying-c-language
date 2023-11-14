@@ -3,6 +3,7 @@
   "files.associations": {
     "*.md": "markdown",
     "string.h": "c",
-    "fogefoge.h": "c"
+    "fogefoge.h": "c",
+    "ostream": "cpp"
   }
 }
